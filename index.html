@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master Dating Site</title>
+  <style>
+    :root {
+      --primary: #e63946;
+      --accent: #ff7f50;
+      --dark: #0f172a;
+      --light: #f8fafc;
+      --white: #fff;
+      --whatsapp: #25D366;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: var(--dark); background: var(--light); }
+    img { max-width: 100%; display: block; }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+
+    h1,h2,h3,h4 { margin-bottom: 1rem; }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      color: var(--white);
+      padding: 4rem 2rem;
+      border-bottom: 1px solid rgba(0,0,0,.08);
+      background: url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(15,23,42,.55);
+    }
+    .hero-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+    .headline { font-size: 2.5rem; font-weight: 700; }
+    .subhead { margin: 1rem 0; font-size: 1.1rem; }
+    .badges { margin: 1rem 0; display: flex; gap: .5rem; flex-wrap: wrap; }
+    .badge { background: var(--white); color: var(--dark); padding: .4rem .7rem; border-radius: 20px; font-size: .85rem; font-weight: 600; }
+    .trust { display: flex; gap: 1.5rem; margin-top: 1.5rem; flex-wrap: wrap; }
+    .t { font-weight: 700; font-size: 1.3rem; }
+    .t .small { display:block; font-weight:400; font-size:.8rem; }
+
+    /* Phone slider */
+    .phone-frame {
+      width:280px; height:560px;
+      border-radius:36px;
+      background:#fff;
+      box-shadow:0 20px 40px rgba(0,0,0,.2);
+      border:12px solid #000;
+      overflow:hidden;
+      position:relative;
+    }
+    .phone-slider { width:100%; height:100%; position:relative; }
+ .slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+  padding-bottom: 1rem; /* space for text */
+}
+
+.slide.active { 
+  opacity: 1; 
+  position: relative; 
+}
+
+.slide img { 
+  width: 100%; 
+  height: 300px; 
+  object-fit: cover; 
+  border-bottom: 2px solid #eee; 
+}
+
+.slide h3 { 
+  margin-top: 1rem; 
+  font-size: 1.1rem; 
+  font-weight: 700; 
+  color: #0f172a; 
+}
+
+.slide p { 
+  font-size: .9rem; 
+  padding: 0 1rem; 
+  margin-top: .5rem; 
+  color: #333; 
+}
+
+
+    /* WhatsApp Button */
+  .whatsapp-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* space between icon and text */
+  width: 90%;
+  background: #25D366;
+  color: #fff;
+  padding: 1rem;
+  border: none;
+  border-radius: .5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 1rem;
+  text-decoration: none;
+}
+
+.whatsapp-btn:hover {
+  background: #1ebe5d;
+}
+
+.whatsapp-btn img {
+  width: 24px;
+  height: 24px;
+}
+
+
+    /* Testimonials */
+    .testimonials .rail { display: flex; gap: 1.5rem; overflow-x: auto; scroll-snap-type: x mandatory; }
+    .quote { background: var(--white); padding: 1.5rem; border-radius: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,.05); flex: 0 0 300px; scroll-snap-align: start; }
+    .who { margin-top: 1rem; display: flex; align-items: center; gap: .5rem; font-weight: 600; }
+    .avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+
+    /* Features */
+    .features .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 2rem; }
+    .card { background: var(--white); padding: 1.5rem; border-radius: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,.05); }
+
+    /* FAQ */
+    details { margin-bottom: 1rem; background: var(--white); padding: 1rem; border-radius: .5rem; box-shadow: 0 2px 6px rgba(0,0,0,.05); }
+
+    /* Contact */
+    .contact { background: var(--white); padding: 3rem 2rem; border-radius: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,.08); margin: 2rem auto; max-width: 700px; }
+    .contact form { display: grid; gap: 1rem; }
+    .contact input, .contact textarea { width: 100%; padding: .8rem; border: 1px solid #ccc; border-radius: .5rem; font-size: 1rem; }
+    .contact button { background: var(--primary); color: var(--white); padding: .9rem; border: none; border-radius: .5rem; font-weight: 600; cursor: pointer; }
+    .contact button:hover { background: var(--accent); }
+    .contact .whatsapp { margin-top: 1.5rem; text-align: center; }
+
+    /* Footer */
+    footer { background: var(--dark); color: var(--white); padding: 2rem; }
+    .foot { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 2rem; }
+    .logo { font-size: 2rem; }
+    .foot a { color: var(--white); text-decoration: none; font-size: .9rem; }
+    .foot a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <h1 class="headline">Find someone who 
+          <span style="background:linear-gradient(135deg,var(--primary),var(--accent)); -webkit-background-clip:text; background-clip:text; color:transparent">
+            gets you
+          </span>
+        </h1>
+        <p class="subhead">Meaningful connections start with understanding. Join a community built for serious dating and respectful conversations.</p>
+        <div class="badges">
+          <span class="badge">🔒 Verified Profiles</span>
+          <span class="badge">📱 iOS & Android</span>
+        </div>
+        <div class="trust">
+          <div class="t">100%<span class="small">Real Connection</span></div>
+          <div class="t">#1<span class="small">For serious dating</span></div>
+          <div class="t">24/7<span class="small">Trust & Safety</span></div>
+          <div class="t">Millions<span class="small">Of introductions</span></div>
+        </div>
+      </div>
+      <!-- Phone Mockup with Testimonials Slider -->
+      <aside style="display:flex; justify-content:center; align-items:center;">
+        <div class="phone-frame">
+         <div class="phone-slider">
+  <div class="slide active">
+    <img src="images/Alex.jpg" alt="Alex">
+    <h3>Alex</h3>
+    <p>“Adventurous traveler seeking a partner to explore the world and life together.”</p>
+  </div>
+   <div class="slide">
+    <img src="images/John.jpg" alt="John">
+    <h3>John & Ruth</h3>
+    <p>“I never thought I’d find love online, but here I am engaged!”</p>
+  </div>
+<div class="slide">
+  <img src="images/mark.jpg" alt="Mark">
+  <h3>Mark</h3>
+  <p>“76 years old single dad from USA 🇺🇸 Today is my birthday — hoping to share my life with a kind soul.”</p>
+</div>
+
+<div class="slide">
+  <img src="images/paul.jpg" alt="Paul">
+  <h3>Paul</h3>
+  <p>“I’ve met amazing friends here. Now I’m ready to meet the love of my life.”</p>
+</div>
+
+<div class="slide">
+  <img src="images/david.jpg" alt="David">
+  <h3>David</h3>
+  <p>“I’m strong, kind, and ready to settle down with someone serious about love.”</p>
+</div>
+
+<div class="slide">
+  <img src="images/michael.jpg" alt="Michael">
+  <h3>Michael</h3>
+  <p>“I am 58 years old from Switzerland. A widow looking for a second chance at happiness ❤.”</p>
+</div>
+<div class="slide">
+  <img src="images/steve.jpg" alt="Steve">
+  <h3>Steve</h3>
+  <p>“Romantic at heart 💕. I want someone who believes in love as much as I do.”</p>
+</div>
+
+<div class="slide">
+  <img src="images/robert.jpg" alt="Robert">
+  <h3>Robert</h3>
+  <p>“Ready to commit to the right woman — honesty and laughter are my priorities.”</p>
+</div>
+
+<div class="slide">
+  <img src="images/james.jpg" alt="James">
+  <h3>James</h3>
+  <p>“Gentleman from the UK 🇬🇧 looking for a kind, loving, and serious woman.”</p>
+</div>
+
+<div class="slide">
+  <img src="images/andrew.jpg" alt="Andrew">
+  <h3>Andrew</h3>
+  <p>“Successful entrepreneur searching for my queen to share success and love.”</p>
+</div>
+
+<div class="slide">
+  <img src="images/samuel.jpg" alt="Samuel">
+  <h3>Samuel</h3>
+  <p>“Kind-hearted and family-oriented. Dreaming of a woman to love unconditionally.”</p>
+</div>
+
+<div class="slide">
+  <img src="images/daniel.jpg" alt="Daniel">
+  <h3>Daniel</h3>
+  <p>“I’m fun, caring, and serious about finding a soulmate. Let’s write our love story.”</p>
+</div>
+
+<div class="slide">
+  <img src="images/henry.jpg" alt="Henry">
+  <h3>Henry</h3>
+  <p>“I enjoy cooking, music, and long walks. Searching for someone to share it all with.”</p>
+</div>
+
+<div class="slide">
+  <img src="images/george.jpg" alt="George">
+  <h3>George</h3>
+  <p>“Widower, 62, I believe in love after loss. Looking for companionship and care.”</p>
+</div>
+
+<div class="slide">
+  <img src="images/charles.jpg" alt="Charles">
+  <h3>George</h3>
+  <p>“I’m a hopeless romantic 🌹, waiting to meet a woman who appreciates love letters.”</p>
+</div>
+
+<div class="slide">
+  <img src="images/peter.jpg" alt="Peter">
+  <h3>Peter</h3>
+  <p>“Fun-loving and positive-minded. Searching for someone ready to build a future together.”</p>
+</div>
+
+<div class="slide">
+  <img src="images/kevin.jpg" alt="Kevin">
+  <h3>Kevin</h3>
+  <p>“Hard-working man who values respect and loyalty. Ready for true love.”</p>
+</div>
+
+<div class="slide">
+  <img src="images/adam.jpg" alt="Adam">
+  <h3>Adam</h3>
+  <p>“Fitness and health enthusiast. I want a partner to keep me smiling and active.”</p>
+</div>
+
+<div class="slide">
+  <img src="images/jason.jpg" alt="Jason">
+  <h3>Jason</h3>
+  <p>“Serious about love and marriage. Looking for someone who wants the same.”</p>
+</div>
+
+<div class="slide">
+  <img src="images/oliver.jpg" alt="Oliver">
+  <h3>Oliver</h3>
+  <p>“I may be quiet at first, but I love deeply. Hoping to find my forever partner here.”</p>
+</div>
+<div class="slide">
+  <img src="images/richard.jpg" alt="Richard">
+  <h3>Richard</h3>
+  <p>“I’m 45, divorced, and ready to give love another chance. Looking for a woman who values honesty and companionship.”</p>
+</div>
+
+<div class="slide">
+  <img src="images/thomas.jpg" alt="Thomas">
+  <h3>Thomas</h3>
+  <p>“I am old gentleman from Canada 🇨🇦. I believe in respect, kindness, and growing old with the right partner.”</p>
+</div>
+
+<div class="slide">
+  <img src="images/william.jpg" alt="William">
+  <h3>William</h3>
+  <p>“At 60, I’ve achieved much in life but miss true companionship. I want a woman to share sunsets and laughter with.”</p>
+</div>
+
+<div class="slide">
+  <img src="images/martin.jpg" alt="Martin">
+  <h3>Martin</h3>
+  <p>“I am successful in my career, but my heart still waits for the one who completes me.”</p>
+</div>
+
+<div class="slide">
+  <img src="images/frank.jpg" alt="Frank">
+  <h3>Frank</h3>
+  <p>“Widowed at 55. I believe love has no age limit, and I’m ready to open my heart again ❤.”</p>
+</div>
+
+<div class="slide">
+  <img src="images/edward.jpg" alt="Edward">
+  <h3>Edward</h3>
+  <p>“At 63, I value peace, family, and true connection. Hoping to meet a woman with a warm heart.”</p>
+</div>
+
+
+</div>
+
+          <!-- WhatsApp Button inside phone -->
+          <a href="https://wa.me/254745007876" target="_blank" class="whatsapp-btn" 
+             style="position:absolute; bottom:15px; left:50%; transform:translateX(-50%);">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+            Chat on WhatsApp
+          </a>
+        </div>
+      </aside>
+    </div>
+  </header>
+
+  <!-- Testimonials -->
+  <section class="testimonials" aria-labelledby="love-title">
+    <div class="container">
+      <h2 id="love-title" style="font-size:28px">Real stories, real connections</h2>
+      <div class="rail" role="list">
+        <figure class="quote" role="listitem">
+          <p>“We matched in a week and the conversation felt effortless. A year later, we’re planning our wedding.”</p>
+          <figcaption class="who"><img class="avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Aisha"> Aisha & Daniel</figcaption>
+        </figure>
+        <figure class="quote" role="listitem">
+          <p>“The quiz helped me find people who share my values. It saved me so much time.”</p>
+          <figcaption class="who"><img class="avatar" src="https://randomuser.me/api/portraits/women/65.jpg" alt="Grace"> Grace</figcaption>
+        </figure>
+        <figure class="quote" role="listitem">
+          <p>“Safety features gave me confidence to actually go on dates again.”</p>
+          <figcaption class="who"><img class="avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Kevin"> Kevin</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features" id="how" aria-labelledby="how-title">
+    <div class="container">
+      <h2 id="how-title" style="font-size:28px">Why choose us?</h2>
+      <div class="grid">
+        <article class="card" id="quiz">
+          <h3>Smart compatibility quiz</h3>
+          <p>Our science-backed matching system helps you meet people who truly align with your values.</p>
+        </article>
+        <article class="card" id="safe">
+          <h3>Privacy first</h3>
+          <p>Your data is encrypted. Location sharing and profile visibility are fully under your control.</p>
+        </article>
+        <article class="card">
+          <h3>24/7 Support</h3>
+          <p>Our team is always available to ensure you feel safe and supported while dating online.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq" aria-labelledby="faq-title">
+    <div class="container">
+      <h2 id="faq-title" style="font-size:28px">FAQs</h2>
+      <details>
+        <summary>Is this app free to use?</summary>
+        <p>Yes, signing up and browsing is free. Premium features are optional.</p>
+      </details>
+      <details>
+        <summary>How do I know profiles are real?</summary>
+        <p>We use photo verification, AI checks, and manual reviews to maintain authenticity.</p>
+      </details>
+      <details>
+        <summary>Can I delete my account?</summary>
+        <p>Yes, you can permanently delete your account anytime from settings.</p>
+      </details>
+      <details>
+        <summary>Is my data safe?</summary>
+        <p>Absolutely. We use advanced encryption and never sell your data.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact" id="contact">
+  <h2 style="text-align:center; margin-bottom:1rem;">Get in Touch</h2>
+  <p style="text-align:center; margin-bottom:2rem;">Chat with the admin to get connected.</p>
+  
+  <form id="whatsapp-form">
+    <input type="text" id="name" name="name" placeholder="Your Name" required>
+    <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+
+  <!-- Optional separate WhatsApp button -->
+  <a href="https://wa.me/254745007876" target="_blank" class="whatsapp-btn">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+    Chat on WhatsApp
+  </a>
+</section>
+
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container foot">
+      <div>
+        <div class="brand" style="color:var(--white)">
+          <div class="logo">♥</div>
+          <span>Master Dating Site</span>
+        </div>
+        <p class="subtle">© 2025 Master Dating Site. All rights reserved.</p>
+      </div>
+      <div>
+        <h4>About</h4>
+        <a href="#how">How it works</a><br>
+        <a href="#safe">Safety</a>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <a href="#faq">FAQs</a><br>
+        <a href="#contact">Contact</a>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <a href="#">Terms</a><br>
+        <a href="#">Privacy</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Slider script -->
+  <script>
+    let slides = document.querySelectorAll('.phone-slider .slide');
+    let index = 0;
+    setInterval(() => {
+      slides[index].classList.remove('active');
+      index = (index + 1) % slides.length;
+      slides[index].classList.add('active');
+    }, 4000);
+  </script>
+  <script>
+  document.getElementById("whatsapp-form").addEventListener("submit", function(e) {
+    e.preventDefault(); // stop normal form submit
+
+    let name = document.getElementById("name").value;
+    let message = document.getElementById("message").value;
+
+    let whatsappNumber = "254745007876";
+
+    let whatsappURL = "https://wa.me/" + whatsappNumber + "?text="
+      + "Hello, my name is " + encodeURIComponent(name) + "%0A"
+      + "Email: " + encodeURIComponent(email) + "%0A"
+      + "Message: " + encodeURIComponent(message);
+
+    window.open(whatsappURL, "_blank");
+  });
+</script>
+
+</body>
+</html>
